@@ -1,27 +1,35 @@
-# Contacts
+# Contacts - Full Stack Web App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
+Contacts is a full stack web app that allows users to manage their contacts. Users can add, edit, delete, and mark contacts as favorites. The app also provides a search function to help users find contacts quickly and easily.
 
-## Development server
+## Tech Stack
+- **Frontend**: Angular
+- **Backend**: Flask
+- **Database**: SQLite3
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Functionalities
+- **Manage Contacts**: Users should be able to add, edit, delete, and mark contacts as favorites.
+- **List Contacts**: Users should be able to list all contacts, sorted alphabetically. The list should show contacts in tabular form, with a different shade for favorite contacts. Users should also be able to switch between viewing all contacts and only viewing favorite contacts. The list should be paginated, with users able to specify the page size.
+- **Search for Contacts**: Users should be able to search for contacts by name.
+- **Data Validation**: Before a contact is saved, the data received by the app should meet the following requirements: 
+    - Contact name: The contact name must be set and unique.
+    - Email: The email address must follow a typical email address format.
+    - Telephone Number: The telephone number must contain only numeric characters and an optional "+" prefix.
+    - At least one of Email or Telephone Number: At least one of either email or telephone number must be set.
 
-## Code scaffolding
+## How to Run
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To run the front end of web application, run the following commands:
 
-## Build
+```
+npm install
+npm start
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+and for the Flask backend, navigate to the folder that contains the code and run:
 
-## Running unit tests
+```
+python app.py
+``` 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+In your web browser, navigate to `http://localhost:4200/` to access the web application.

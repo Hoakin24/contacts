@@ -24,11 +24,9 @@ export class EditComponent {
 
   getContact(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.contactsService.getContact(id).subscribe((contact => this.contact = contact), 
-    (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: CONTACT NOT FOUND ${error.error}`)
-      } 
+    this.contactsService.getContact(id).subscribe({
+      next: (contact: any) => this.contact = contact,
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: CONTACT NOT FOUND ${err.error}`)
     });
   }
 
@@ -45,14 +43,9 @@ export class EditComponent {
         return;
       }
 
-      this.contactsService.updateContact(id, this.contact).subscribe((data: any) => {
-        if (data) {
-          this.messagesService.add(`ContactsService: Success`)
-        }
-      }, (error: HttpErrorResponse) => {
-        if (error.error) {
-          this.messagesService.add(`ContactsService: ${error.error}`)
-        } 
+      this.contactsService.updateContact(id, this.contact).subscribe({
+        next: (data: any) => this.messagesService.add(`ContactsService: Success ${data}`),
+        error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
       });
     }
   }

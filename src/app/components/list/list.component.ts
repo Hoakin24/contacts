@@ -24,72 +24,62 @@ export class ListComponent {
 
   getContacts(): void {
     this.is_favorite_page = false
-    this.contactsService.getContacts().subscribe(contacts => { 
-      this.contacts_list = contacts
-      this.messagesService.add(`ContactsService: Contacts retrieved`)
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
+    this.contactsService.getContacts().subscribe({
+      next: (contacts: any) => {
+        this.contacts_list = contacts;
+        this.messagesService.add(`ContactsService: Contacts retrieved`);
+      },
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
     });
   }
 
   getFavorites(): void {
     this.is_favorite_page = true
-    this.contactsService.getFavorites().subscribe(favorites => {
-      this.contacts_list = favorites
-      this.messagesService.add(`ContactsService: Favorites retrieved`)
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
+    this.contactsService.getFavorites().subscribe({
+      next: (favorites: any) => {
+        this.contacts_list = favorites;
+        this.messagesService.add(`ContactsService: Favorites retrieved`);
+      },
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
     });
   }
 
   deleteContact(contact: Contact): void {
-    this.contactsService.deleteContact(contact.id).subscribe((data: any) => {
-      if (data) {
+    this.contactsService.deleteContact(contact.id).subscribe({
+      next: (data: any) => {
         this.messagesService.add(`ContactsService: Deleted successfully`)
-      }
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
+        this.paginate(this.current_page, this.rows);
+      },
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
     });
-    window.location.reload();
+    
   }
 
   isFavorite(contact: Contact): void {
     contact.favorite = !contact.favorite
-    this.contactsService.isFavorite(contact.id, {'favorite': contact.favorite}).subscribe((data: any) => {
-      if (data) {
-        this.messagesService.add(`ContactsService: Favorite changed`)
-      }
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
+    this.contactsService.isFavorite(contact.id, {'favorite': contact.favorite}).subscribe({
+      next: (data: any) => this.messagesService.add(`ContactsService: Favorite changed`),
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
     });
   }
 
   searchContacts(text: string): void {
-    this.contactsService.searchContacts(text, this.is_favorite_page).subscribe(searched => {
-      this.contacts_list = searched
-      this.messagesService.add(`ContactsService: Searched contacts retrieved`)
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
+    this.contactsService.searchContacts(text, this.is_favorite_page).subscribe({
+      next: (searched: any) => {
+        this.contacts_list = searched;
+        this.messagesService.add(`ContactsService: Searched contacts retrieved`);
+      },
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
     });
   }
 
   paginate(page: string, rows: string): void {
-    this.contactsService.paginate(Number(page), Number(rows)).subscribe(paginated => {
-      this.contacts_list = paginated
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
+    this.contactsService.paginate(Number(page), Number(rows)).subscribe({
+      next: (paginated: any) => {
+        this.contacts_list = paginated
+        this.messagesService.add(`ContactsService: Paginated`);
+      },
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
     });
   } 
 }

@@ -34,14 +34,14 @@ export class AddComponent {
       
     };
     
-    this.response = this.contactsService.addContact(this.add_user).subscribe((data: any) => {
-      this.messagesService.add(`ContactsService: ${data}`)
-      window.location.reload();
-    }, (error: HttpErrorResponse) => {
-      if (error.error) {
-        this.messagesService.add(`ContactsService: ${error.error}`)
-      } 
-    });
+    this.response = this.contactsService.addContact(this.add_user).subscribe({
+      next: (data: any) => {
+        this.messagesService.add(`ContactsService: ${data}`);
+        window.location.reload();
+      },
+      error: (err: HttpErrorResponse) => this.messagesService.add(`ContactsService: ${err.error}`)
+      });
+     
   }
 
   constructor(private contactsService: ContactsService, private messagesService: MessagesService) {}
